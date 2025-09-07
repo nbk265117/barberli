@@ -26,8 +26,8 @@ export function GoogleMaps({
   className = "w-full h-64",
 }: GoogleMapsProps) {
   const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<google.maps.Map | null>(null);
-  const markersRef = useRef<google.maps.Marker[]>([]);
+  const mapInstanceRef = useRef<any>(null);
+  const markersRef = useRef<any[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export function GoogleMaps({
 
     loader.load().then(() => {
       if (mapRef.current) {
-        mapInstanceRef.current = new google.maps.Map(mapRef.current, {
+        mapInstanceRef.current = new (window as any).google.maps.Map(mapRef.current, {
           center,
           zoom,
           mapTypeControl: false,
@@ -68,14 +68,14 @@ export function GoogleMaps({
 
       // Add new markers
       markers.forEach((markerData) => {
-        const marker = new google.maps.Marker({
+        const marker = new (window as any).google.maps.Marker({
           position: { lat: markerData.lat, lng: markerData.lng },
           map: mapInstanceRef.current,
           title: markerData.title,
         });
 
         if (markerData.infoWindow) {
-          const infoWindow = new google.maps.InfoWindow({
+          const infoWindow = new (window as any).google.maps.InfoWindow({
             content: markerData.infoWindow,
           });
 

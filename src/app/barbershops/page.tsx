@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Metadata } from "next";
+import { type Metadata } from "next";
 
 import { BarbershopList } from "~/app/_components/barbershop-list";
 import { Header } from "~/app/_components/header";

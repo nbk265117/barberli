@@ -126,10 +126,10 @@ export const reservationRouter = createTRPCRouter({
       const [closeHour, closeMinute] = workingHours.closeTime.split(":").map(Number);
 
       const openTime = new Date(selectedDate);
-      openTime.setHours(openHour, openMinute, 0, 0);
+      openTime.setHours(openHour || 0, openMinute || 0, 0, 0);
 
       const closeTime = new Date(selectedDate);
-      closeTime.setHours(closeHour, closeMinute, 0, 0);
+      closeTime.setHours(closeHour || 0, closeMinute || 0, 0, 0);
 
       const slotDuration = 30; // 30 minutes slots
       const serviceDuration = service.duration;

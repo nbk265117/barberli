@@ -12,16 +12,17 @@ import { api } from "~/trpc/server";
 import { auth } from "~/server/auth";
 
 interface BarbershopPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default async function BarbershopPage({ params }: BarbershopPageProps) {
   const session = await auth();
+  const { id } = await params;
   
   try {
-    const barbershop = await api.barbershop.getById({ id: params.id });
+    const barbershop = await api.barbershop.getById({ id });
     
     return (
       <div className="min-h-screen bg-gray-50">
@@ -63,7 +64,8 @@ export default async function BarbershopPage({ params }: BarbershopPageProps) {
 
 export async function generateMetadata({ params }: BarbershopPageProps) {
   try {
-    const barbershop = await api.barbershop.getById({ id: params.id });
+    const { id } = await params;
+    const barbershop = await api.barbershop.getById({ id });
     
     return {
       title: `${barbershop.name} - BarberLi`,

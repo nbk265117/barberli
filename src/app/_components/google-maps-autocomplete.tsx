@@ -5,7 +5,7 @@ import { Loader } from "@googlemaps/js-api-loader";
 import { env } from "~/env.js";
 
 interface GoogleMapsAutocompleteProps {
-  onPlaceSelect: (place: google.maps.places.PlaceResult) => void;
+  onPlaceSelect: (place: any) => void;
   placeholder?: string;
   className?: string;
   value?: string;
@@ -20,7 +20,7 @@ export function GoogleMapsAutocomplete({
   onChange,
 }: GoogleMapsAutocompleteProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+  const autocompleteRef = useRef<any>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export function GoogleMapsAutocomplete({
 
     loader.load().then(() => {
       if (inputRef.current) {
-        autocompleteRef.current = new google.maps.places.Autocomplete(inputRef.current, {
+        autocompleteRef.current = new (window as any).google.maps.places.Autocomplete(inputRef.current, {
           componentRestrictions: { country: "ma" }, // Restrict to Morocco
           fields: ["place_id", "formatted_address", "geometry", "name"],
         });
@@ -52,7 +52,7 @@ export function GoogleMapsAutocomplete({
 
     return () => {
       if (autocompleteRef.current) {
-        google.maps.event.clearInstanceListeners(autocompleteRef.current);
+        (window as any).google.maps.event.clearInstanceListeners(autocompleteRef.current);
       }
     };
   }, [onPlaceSelect]);
