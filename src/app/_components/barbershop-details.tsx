@@ -31,7 +31,7 @@ export function BarbershopDetails({ barbershop }: BarbershopDetailsProps) {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       {barbershop.imageUrl && (
-        <div className="h-64 bg-gray-200">
+        <div className="h-64 bg-gray-200 relative">
           <Image
             src={barbershop.imageUrl}
             alt={barbershop.name}

@@ -36,7 +36,7 @@ export function FeaturedBarbershops() {
           className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden group"
         >
           {barbershop.imageUrl ? (
-            <div className="h-48 bg-gray-200 overflow-hidden">
+            <div className="h-48 bg-gray-200 overflow-hidden relative">
               <Image
                 src={barbershop.imageUrl}
                 alt={barbershop.name}
