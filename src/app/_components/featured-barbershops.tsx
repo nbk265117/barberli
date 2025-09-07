@@ -42,7 +42,18 @@ export function FeaturedBarbershops() {
                 alt={barbershop.name}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  const fallback = target.nextElementSibling as HTMLElement;
+                  if (fallback) fallback.style.display = 'flex';
+                }}
               />
+              <div className="h-48 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center absolute inset-0" style={{ display: 'none' }}>
+                <span className="text-white text-4xl font-bold">
+                  {barbershop.name.charAt(0)}
+                </span>
+              </div>
             </div>
           ) : (
             <div className="h-48 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
