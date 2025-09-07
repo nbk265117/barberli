@@ -30,6 +30,9 @@
     "@t3-oss/env-nextjs": "^0.12.0",
     "@tailwindcss/postcss": "^4.1.13",
     "@tanstack/react-query": "^5.87.1",
+    "@types/node": "^20.14.10",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "@trpc/client": "^11.0.0",
     "@trpc/react-query": "^11.0.0",
     "@trpc/server": "^11.0.0",
@@ -42,13 +45,11 @@
     "resend": "^6.0.2",
     "server-only": "^0.0.1",
     "superjson": "^2.2.1",
+    "typescript": "^5.8.2",
     "zod": "^3.25.76"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
-    "@types/node": "^20.14.10",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.23.0",
     "eslint-config-next": "^15.2.3",
@@ -58,7 +59,6 @@
     "prisma": "^6.5.0",
     "tailwindcss": "^4.0.15",
     "tsx": "^4.20.5",
-    "typescript": "^5.8.2",
     "typescript-eslint": "^8.27.0"
   },
   "ct3aMetadata": {
