@@ -1,69 +1,99 @@
-import Link from "next/link";
+import { Suspense } from "react";
+import { Search, MapPin, Star, Clock, Scissors } from "lucide-react";
 
-import { LatestPost } from "~/app/_components/post";
+import { BarbershopSearch } from "~/app/_components/barbershop-search";
+import { FeaturedBarbershops } from "~/app/_components/featured-barbershops";
+import { Header } from "~/app/_components/header";
+import { Hero } from "~/app/_components/hero";
 import { auth } from "~/server/auth";
-import { api, HydrateClient } from "~/trpc/server";
 
 export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
   const session = await auth();
 
-  if (session?.user) {
-    void api.post.getLatest.prefetch();
-  }
-
   return (
-    <HydrateClient>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-          <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-            Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-          </h1>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-            <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-              href="https://create.t3.gg/en/usage/first-steps"
-              target="_blank"
-            >
-              <h3 className="text-2xl font-bold">First Steps →</h3>
-              <div className="text-lg">
-                Just the basics - Everything you need to know to set up your
-                database and authentication.
-              </div>
-            </Link>
-            <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-              href="https://create.t3.gg/en/introduction"
-              target="_blank"
-            >
-              <h3 className="text-2xl font-bold">Documentation →</h3>
-              <div className="text-lg">
-                Learn more about Create T3 App, the libraries it uses, and how
-                to deploy it.
-              </div>
-            </Link>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-2xl text-white">
-              {hello ? hello.greeting : "Loading tRPC query..."}
-            </p>
-
-            <div className="flex flex-col items-center justify-center gap-4">
-              <p className="text-center text-2xl text-white">
-                {session && <span>Logged in as {session.user?.name}</span>}
+    <div className="min-h-screen bg-gray-50">
+      <Header session={session} />
+      
+      <main>
+        <Hero />
+        
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Trouvez votre barbershop idéal
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Découvrez les meilleurs salons de coiffure pour hommes au Maroc. 
+                Réservez facilement votre rendez-vous en ligne.
               </p>
-              <Link
-                href={session ? "/api/auth/signout" : "/api/auth/signin"}
-                className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
-              >
-                {session ? "Sign out" : "Sign in"}
-              </Link>
+            </div>
+            
+            <Suspense fallback={<div className="text-center">Chargement...</div>}>
+              <BarbershopSearch />
+            </Suspense>
+          </div>
+        </section>
+
+        <section className="py-16 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Barbershops populaires
+              </h2>
+              <p className="text-lg text-gray-600">
+                Les salons les mieux notés par nos clients
+              </p>
+            </div>
+            
+            <Suspense fallback={<div className="text-center">Chargement...</div>}>
+              <FeaturedBarbershops />
+            </Suspense>
+          </div>
+        </section>
+
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Pourquoi choisir BarberLi ?
+              </h2>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Search className="w-8 h-8 text-blue-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Recherche facile</h3>
+                <p className="text-gray-600">
+                  Trouvez rapidement le barbershop le plus proche avec nos filtres avancés
+                </p>
+              </div>
+              
+              <div className="text-center">
+                <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Clock className="w-8 h-8 text-green-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Réservation instantanée</h3>
+                <p className="text-gray-600">
+                  Réservez votre créneau en quelques clics, 24h/24 et 7j/7
+                </p>
+              </div>
+              
+              <div className="text-center">
+                <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Star className="w-8 h-8 text-purple-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Qualité garantie</h3>
+                <p className="text-gray-600">
+                  Tous nos barbershops sont vérifiés et notés par nos clients
+                </p>
+              </div>
             </div>
           </div>
-
-          {session?.user && <LatestPost />}
-        </div>
+        </section>
       </main>
-    </HydrateClient>
+    </div>
   );
 }

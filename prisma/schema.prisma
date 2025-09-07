@@ -14,16 +14,114 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+// Barbershop models
+model Barbershop {
+    id          String   @id @default(cuid())
+    name        String
+    description String?
+    address     String
+    city        String
+    postalCode  String?
+    latitude    Float?
+    longitude   Float?
+    phone       String?
+    email       String?
+    website     String?
+    imageUrl    String?
+    rating      Float    @default(0)
+    reviewCount Int      @default(0)
+    isActive    Boolean  @default(true)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
+    // Relations
+    services     Service[]
+    reservations Reservation[]
+    reviews      Review[]
+    workingHours WorkingHours[]
 
-    @@index([name])
+    @@index([city])
+    @@index([latitude, longitude])
+}
+
+model Service {
+    id           String     @id @default(cuid())
+    name         String
+    description  String?
+    duration     Int        // Duration in minutes
+    price        Float
+    isActive     Boolean    @default(true)
+    createdAt    DateTime   @default(now())
+    updatedAt    DateTime   @updatedAt
+
+    // Relations
+    barbershop   Barbershop @relation(fields: [barbershopId], references: [id], onDelete: Cascade)
+    barbershopId String
+    reservations Reservation[]
+
+    @@index([barbershopId])
+}
+
+model Reservation {
+    id          String            @id @default(cuid())
+    date        DateTime
+    status      ReservationStatus @default(PENDING)
+    notes       String?
+    totalPrice  Float
+    createdAt   DateTime          @default(now())
+    updatedAt   DateTime          @updatedAt
+
+    // Relations
+    user        User              @relation(fields: [userId], references: [id])
+    userId      String
+    barbershop  Barbershop        @relation(fields: [barbershopId], references: [id])
+    barbershopId String
+    service     Service           @relation(fields: [serviceId], references: [id])
+    serviceId   String
+
+    @@index([userId])
+    @@index([barbershopId])
+    @@index([date])
+}
+
+model Review {
+    id          String   @id @default(cuid())
+    rating      Int      // 1-5 stars
+    comment     String?
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    // Relations
+    user        User       @relation(fields: [userId], references: [id])
+    userId      String
+    barbershop  Barbershop @relation(fields: [barbershopId], references: [id], onDelete: Cascade)
+    barbershopId String
+
+    @@unique([userId, barbershopId])
+    @@index([barbershopId])
+}
+
+model WorkingHours {
+    id          String   @id @default(cuid())
+    dayOfWeek   Int      // 0 = Sunday, 1 = Monday, etc.
+    openTime    String   // Format: "09:00"
+    closeTime   String   // Format: "18:00"
+    isClosed    Boolean  @default(false)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    // Relations
+    barbershop  Barbershop @relation(fields: [barbershopId], references: [id], onDelete: Cascade)
+    barbershopId String
+
+    @@unique([barbershopId, dayOfWeek])
+}
+
+enum ReservationStatus {
+    PENDING
+    CONFIRMED
+    CANCELLED
+    COMPLETED
 }
 
 // Necessary for Next auth
@@ -60,9 +158,11 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
+    phone         String?
     accounts      Account[]
     sessions      Session[]
-    posts         Post[]
+    reservations  Reservation[]
+    reviews       Review[]
 }
 
 model VerificationToken {
