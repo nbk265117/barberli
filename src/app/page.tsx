@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Search, MapPin, Star, Clock, Scissors } from "lucide-react";
+import { Search, Star, Clock } from "lucide-react";
 
 import { BarbershopSearch } from "~/app/_components/barbershop-search";
 import { FeaturedBarbershops } from "~/app/_components/featured-barbershops";

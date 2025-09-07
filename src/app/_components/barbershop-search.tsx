@@ -4,6 +4,7 @@ import { useState } from "react";
 import { api } from "~/trpc/react";
 import { Star, MapPin, Clock, Phone } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export function BarbershopSearch() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -64,10 +65,11 @@ export function BarbershopSearch() {
             >
               {barbershop.imageUrl && (
                 <div className="h-48 bg-gray-200">
-                  <img
+                  <Image
                     src={barbershop.imageUrl}
                     alt={barbershop.name}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
                   />
                 </div>
               )}

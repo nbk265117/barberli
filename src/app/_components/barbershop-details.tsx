@@ -1,6 +1,7 @@
 "use client";
 
-import { Star, MapPin, Phone, Clock, Globe } from "lucide-react";
+import { Star, MapPin, Phone, Globe } from "lucide-react";
+import Image from "next/image";
 
 interface BarbershopDetailsProps {
   barbershop: {
@@ -31,10 +32,11 @@ export function BarbershopDetails({ barbershop }: BarbershopDetailsProps) {
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       {barbershop.imageUrl && (
         <div className="h-64 bg-gray-200">
-          <img
+          <Image
             src={barbershop.imageUrl}
             alt={barbershop.name}
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
           />
         </div>
       )}

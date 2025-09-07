@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { Star, MapPin, Phone, Clock, Calendar } from "lucide-react";
 
 import { BarbershopDetails } from "~/app/_components/barbershop-details";
 import { BarbershopServices } from "~/app/_components/barbershop-services";
@@ -57,7 +56,7 @@ export default async function BarbershopPage({ params }: BarbershopPageProps) {
         </main>
       </div>
     );
-  } catch (error) {
+  } catch {
     notFound();
   }
 }

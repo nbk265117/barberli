@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import { type Session } from "next-auth";
 import { Scissors, User, LogOut, LogIn } from "lucide-react";
 

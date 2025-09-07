@@ -3,6 +3,7 @@
 import { api } from "~/trpc/react";
 import { Star, MapPin, Clock } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export function FeaturedBarbershops() {
   const { data: barbershops, isLoading } = api.barbershop.getAll.useQuery({
@@ -36,10 +37,11 @@ export function FeaturedBarbershops() {
         >
           {barbershop.imageUrl ? (
             <div className="h-48 bg-gray-200 overflow-hidden">
-              <img
+              <Image
                 src={barbershop.imageUrl}
                 alt={barbershop.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-300"
               />
             </div>
           ) : (

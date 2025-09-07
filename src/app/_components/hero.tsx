@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search, MapPin } from "lucide-react";
+import { Search } from "lucide-react";
 import { GoogleMapsAutocomplete } from "./google-maps-autocomplete";
 
 export function Hero() {

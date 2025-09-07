@@ -2,14 +2,13 @@
 
 import { api } from "~/trpc/react";
 import { Star } from "lucide-react";
-import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 interface BarbershopReviewsProps {
   barbershopId: string;
 }
 
 export function BarbershopReviews({ barbershopId }: BarbershopReviewsProps) {
-  const { data: session } = useSession();
   const { data: reviews, isLoading } = api.review.getByBarbershop.useQuery({
     barbershopId,
     limit: 10,
@@ -51,10 +50,12 @@ export function BarbershopReviews({ barbershopId }: BarbershopReviewsProps) {
             <div className="flex items-start justify-between mb-2">
               <div className="flex items-center">
                 {review.user.image ? (
-                  <img
+                  <Image
                     src={review.user.image}
                     alt={review.user.name || "Utilisateur"}
-                    className="w-10 h-10 rounded-full mr-3"
+                    width={40}
+                    height={40}
+                    className="rounded-full mr-3"
                   />
                 ) : (
                   <div className="w-10 h-10 bg-gray-300 rounded-full mr-3 flex items-center justify-center">
